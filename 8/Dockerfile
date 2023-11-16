@@ -31,22 +31,20 @@ RUN set -eux; \
     case "${ARCH}" in \
        aarch64|arm64) \
          if [ "${EDITION}" = "extended" ];then \
-           ESUM='2602b8f707b1a15a628bfdc9396bfdf9906d420172871e64a02a1604871cdc91
-Content-Disposition:'; \
-           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_aarch64_linux.tar.gz'; \
+           ESUM=2602b8f707b1a15a628bfdc9396bfdf9906d420172871e64a02a1604871cdc91'; \
+           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_aarch64_linux.tar.gz; \
          else \
-           ESUM='18f4b12c983a38425de86d6f13b46de0526ee9a19dbdeba3431fad35cb6e7b15'; \
-           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_aarch64_linux.tar.gz'; \
+           ESUM=18f4b12c983a38425de86d6f13b46de0526ee9a19dbdeba3431fad35cb6e7b15'; \
+           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_aarch64_linux.tar.gz; \
          fi \
          ;; \
        amd64|i386:x86-64) \
          if [ "${EDITION}" = "extended" ];then \
-           ESUM='fe79b0c2081f894f82396179abb4dac93c6e887df07d1321ca3e5dca596ebea7
-Content-Disposition:'; \
-           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_x64_linux.tar.gz'; \
+           ESUM='fe79b0c2081f894f82396179abb4dac93c6e887df07d1321ca3e5dca596ebea7'; \
+           BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_x64_linux.tar.gz; \
          else \
            ESUM='18d483c5cc1c16591fce9a84c605275570c5ea325c15a2ecb4e05e7a81956e72'; \
-           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz'; \
+           BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz; \
          fi \
          ;; \
        *) \

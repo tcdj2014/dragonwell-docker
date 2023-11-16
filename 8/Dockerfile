@@ -15,7 +15,7 @@ FROM alibaba-cloud-linux-3-registry.cn-hangzhou.cr.aliyuncs.com/alinux3/alinux3:
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar  font-adobe-100dpi ttf-dejavu tini busybox-extras bash \
+RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash \
     && yum clean all
 
 ENV JAVA_VERSION jdk8u382-b01

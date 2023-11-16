@@ -71,7 +71,7 @@ COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
 RUN echo Verifying install ... \
     && echo javac -version && javac -version \
     && echo java -version && java -version \
-    && date
+    && date \
     && echo Complete.
 
 ENTRYPOINT ["tini","--"]

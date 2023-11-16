@@ -1,0 +1,79 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+FROM alibaba-cloud-linux-3-registry.cn-hangzhou.cr.aliyuncs.com/alinux3/alinux3:latest
+
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar  font-adobe-100dpi ttf-dejavu tini busybox-extras bash \
+    && yum clean all
+
+ENV JAVA_VERSION jdk8u382-b01
+
+ARG EDITION=extended
+
+ARG D_VERSION=8.16.17
+
+# https://dragonwell.oss-cn-shanghai.aliyuncs.com/8.16.17/Alibaba_Dragonwell_Extended_8.16.17_x64_linux.tar.gz
+
+RUN set -eux; \
+    ARCH="$(objdump="$(command -v objdump)" && objdump --file-headers "$objdump" | awk -F '[:,]+[[:space:]]+' '$1 == "architecture" { print $2 }')"; \
+    case "${ARCH}" in \
+       aarch64|arm64) \
+         if [ "${EDITION}" = "extended" ];then \
+           ESUM='2602b8f707b1a15a628bfdc9396bfdf9906d420172871e64a02a1604871cdc91
+Content-Disposition:'; \
+           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_aarch64_linux.tar.gz'; \
+         else \
+           ESUM='18f4b12c983a38425de86d6f13b46de0526ee9a19dbdeba3431fad35cb6e7b15'; \
+           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_aarch64_linux.tar.gz'; \
+         fi \
+         ;; \
+       amd64|i386:x86-64) \
+         if [ "${EDITION}" = "extended" ];then \
+           ESUM='fe79b0c2081f894f82396179abb4dac93c6e887df07d1321ca3e5dca596ebea7
+Content-Disposition:'; \
+           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_x64_linux.tar.gz'; \
+         else \
+           ESUM='18d483c5cc1c16591fce9a84c605275570c5ea325c15a2ecb4e05e7a81956e72'; \
+           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz'; \
+         fi \
+         ;; \
+       *) \
+         echo "Unsupported arch: ${ARCH}"; \
+         exit 1; \
+         ;; \
+    esac; \
+    curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
+    echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    mkdir -p /opt/java/openjdk; \
+    cd /opt/java/openjdk; \
+    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
+    rm -rf /tmp/openjdk.tar.gz;
+
+ENV JAVA_HOME=/opt/java/openjdk \
+    PATH="/opt/java/openjdk/bin:$PATH"
+
+RUN rm -rf /var/cache/*/*
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo "Asia/Shanghai" > /etc/timezone
+# copy arthas
+COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
+
+RUN echo Verifying install ... \
+    && echo javac -version && javac -version \
+    && echo java -version && java -version \
+    && date
+    && echo Complete.
+
+ENTRYPOINT ["tini","--"]

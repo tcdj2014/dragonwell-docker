@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  tengine:
+    image: tengine:latest
+    container_name: tengine
+    hostname: tengine
+    restart: always
+    ports:
+     - 80:80
+    volumes:
+     - $PWD/conf:/usr/local/nginx/conf/vhost
+     - /Users/txm/develop/wms:/Users/txm/develop/wms
+     - /Users/txm/develop/cbt-web:/Users/txm/develop/cbt-web
+    environment:
+      - TZ=Asia/Shanghai # 设置时区

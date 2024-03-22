@@ -58,7 +58,6 @@ RUN set -eux; \
          ;; \
     esac; \
     curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
-    echo "${ESUM:0:64}" \
     echo "${ESUM:0:64} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \

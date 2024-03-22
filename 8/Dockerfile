@@ -25,8 +25,7 @@ ARG EDITION=extended
 
 ARG D_VERSION=8.18.19
 
-# https://dragonwell.oss-cn-shanghai.aliyuncs.com/8.16.17/Alibaba_Dragonwell_Extended_8.16.17_x64_linux.tar.gz
-
+# https://github.com/dragonwell-project/dragonwell8/wiki/下载镜像(Mirrors-for-download)
 RUN set -eux; \
     ARCH="$(objdump="$(command -v objdump)" && objdump --file-headers "$objdump" | awk -F '[:,]+[[:space:]]+' '$1 == "architecture" { print $2 }')"; \
     case "${ARCH}" in \

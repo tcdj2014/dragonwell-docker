@@ -54,7 +54,7 @@ RUN set -eux; \
          ;; \
     esac; \
     curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
-    curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL+'.sha256.txt'}; \
+    curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
     echo "*/tmp/openjdk.tar.gz.sha256.txt */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \

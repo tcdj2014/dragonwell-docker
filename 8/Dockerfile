@@ -13,15 +13,11 @@
 #
 FROM alibaba-cloud-linux-3-registry.cn-hangzhou.cr.aliyuncs.com/alinux3/alinux3:latest
 
-ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash'
 
 # /usr/bin/tini 位置
 RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash htop procps iputils \
     && yum clean all
-
-RUN cat /etc/shells
-
-RUN chsh -s /bin/bash
 
 ENV JAVA_VERSION jdk8u382-b01
 

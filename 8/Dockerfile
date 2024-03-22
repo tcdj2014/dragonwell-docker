@@ -55,11 +55,11 @@ RUN set -eux; \
     esac; \
     curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
     curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
-    ESUM=$(<tmp/openjdk.tar.gz.sha256.txt) \
-    echo "${ESUM}" \
-    ESUM=${ESUM:0:64} \
-    echo "${ESUM}" \
-    echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    SHA256_SUM=$(<tmp/openjdk.tar.gz.sha256.txt) \
+    echo "${SHA256_SUM}" \
+    SHA256_SUM=${ESSHA256_SUMUM:0:64} \
+    echo "${SHA256_SUM}" \
+    echo "${SHA256_SUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \
     tar -xf /tmp/openjdk.tar.gz --strip-components=1; \

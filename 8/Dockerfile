@@ -60,7 +60,7 @@ RUN set -eux; \
     ESUM=${ESUM:0:64} \
     echo "${ESUM}" \
     ESUM=$(echo /tmp/openjdk.tar.gz.sha256.txt) \
-    echo "*/tmp/openjdk.tar.gz.sha256.txt */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \
     tar -xf /tmp/openjdk.tar.gz --strip-components=1; \

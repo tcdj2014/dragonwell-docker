@@ -23,7 +23,7 @@ ENV JAVA_VERSION jdk8u382-b01
 
 ARG EDITION=extended
 
-ARG D_VERSION=8.16.17
+ARG D_VERSION=8.18.19
 
 # https://dragonwell.oss-cn-shanghai.aliyuncs.com/8.16.17/Alibaba_Dragonwell_Extended_8.16.17_x64_linux.tar.gz
 
@@ -54,7 +54,8 @@ RUN set -eux; \
          ;; \
     esac; \
     curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
-    echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+    curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL+'.sha256.txt'}; \
+    echo */tmp/openjdk.tar.gz.sha256.txt */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \
     tar -xf /tmp/openjdk.tar.gz --strip-components=1; \

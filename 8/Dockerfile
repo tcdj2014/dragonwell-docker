@@ -21,7 +21,7 @@ RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip 
 
 RUN cat /etc/shells
 
-RUN chsh -s /bin/bash root
+RUN chsh -s /bin/bash
 
 ENV JAVA_VERSION jdk8u382-b01
 

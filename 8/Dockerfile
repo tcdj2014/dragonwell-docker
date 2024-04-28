@@ -21,7 +21,7 @@ RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip 
 
 ENV JAVA_VERSION jdk8u382-b01
 
-ARG EDITION=extended
+#ARG EDITION=extended
 
 ARG D_VERSION=8.18.19
 

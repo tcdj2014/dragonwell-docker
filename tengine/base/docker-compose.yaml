@@ -1,0 +1,74 @@
+version: "2"
+
+services:
+
+    mongo:
+        image: mongo:4.4
+        container_name: mongo
+        command: mongod --auth --wiredTigerCacheSizeGB 3.2
+        restart: always
+        mem_limit: 4g
+        ports:
+            - "37017:27017/tcp"
+        volumes:
+            - $PWD/mongo/data/db:/data/db
+        environment:
+            TZ: Asia/Shanghai # 设置时区
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: ttx2011
+        networks:
+            - base-net
+    redis:
+        image: redis:5.0
+        container_name: redis
+        hostname: redis
+        restart: always
+        command: redis-server /usr/local/etc/redis/redis.conf
+        #command: redis-server --appendonly yes
+        ports:
+            - 36379:6379
+        volumes:
+            - $PWD/redis/data:/data
+            - $PWD/redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+        environment:
+            - TZ=Asia/Shanghai # 设置时区
+        networks:
+            - base-net
+    rabbitmq:
+        image: rabbitmq:3.10-management
+        container_name: rabbitmq
+        hostname: rabbit
+        restart: always
+        environment:
+            - TZ=Asia/Shanghai # 设置时区
+            - RABBITMQ_DEFAULT_USER=ttx
+            - RABBITMQ_DEFAULT_PASS=ttx2011
+        ports:
+            - "35672:5672"
+            - "35673:15672"
+        volumes:
+            - $PWD/rabbitmq/data/rabbitmq:/var/lib/rabbitmq
+        networks:
+            - base-net
+    mysql:
+        image: mysql:5.7.44
+        container_name: mysql
+        hostname: mysql
+        ports:
+            - 30001:3306
+        volumes:
+            - ./mysql/conf/mysql/my.cnf:/etc/mysql/my.cnf
+            - ./mysql/container_data/mysql:/var/lib/mysql
+            - ./mysql/sqldumps:/sqldumps
+        environment:
+            - MYSQL_ROOT_PASSWORD=ttx2011
+            - TZ=Asia/Shanghai # 设置时区
+        networks:
+            - base-net
+networks:
+    base-net:
+        driver: bridge
+        ipam:
+            config:
+                -   subnet: 192.168.101.0/24
+                    gateway: 192.168.101.1

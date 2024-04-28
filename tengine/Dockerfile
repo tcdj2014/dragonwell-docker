@@ -44,6 +44,8 @@ RUN if [ -z "$TENGINE_VERSION" ]; then \
 
 EXPOSE 8080
 
+RUN mkdir -p /tmp/base
+COPY base /tmp/base
 COPY nginx.conf ${TENGINE_BASEDIR}/conf/
 COPY proxy.conf ${TENGINE_BASEDIR}/conf/
 

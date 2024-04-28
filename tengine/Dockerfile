@@ -1,5 +1,6 @@
 ## Dockerfile
-FROM centos:7
+#centos:7@sha256:dead07b4d8ed7e29e98de0f4504d87e8880d4347859d839686a31da35a3b532f linux/amd64
+FROM centos:7@sha256:dead07b4d8ed7e29e98de0f4504d87e8880d4347859d839686a31da35a3b532f
 
 LABEL maintainer "xmtang@ittx.com.cn"
 
@@ -43,7 +44,9 @@ RUN if [ -z "$TENGINE_VERSION" ]; then \
 
 
 EXPOSE 8080
-
+RUN curl -u developer:95bb05e9-1540-4caa https://nexus.loghub.com/repository/releases/com/ittx/cbt-web/2.9.24.1/cbt-web-2.9.24.1.tar.gz -o cbt-web-2.9.24.1.tar.gz
+RUN tar zxvf cbt-web-2.9.24.1.tar.gz \
+COPY release /opt/web
 RUN mkdir -p /tmp/base
 COPY base /tmp/base
 COPY nginx.conf ${TENGINE_BASEDIR}/conf/

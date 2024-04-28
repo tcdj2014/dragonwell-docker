@@ -1,0 +1,35 @@
+version: "2"
+services:
+    wms:
+        image: tangxm1314/wms
+        container_name: wms
+        ports:
+            - "6001:9210/tcp"
+        #mem_limit: 1g
+        environment:
+            TZ: "Asia/Shanghai"
+            LICENSE_SERVER: http://10.72.64.229:30008
+            CBT_HOME_PAGE: "/index.html?customer=loreal-wms-prod&lang=zh"
+            # mysql
+            MYSQL_URL: "jdbc:mysql://10.72.64.229:30001/loreal-wms-prod?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false"
+            MYSQL_USERNAME: "root"
+            MYSQL_PASSWORD: "ttx2011"
+            # redis
+            REDIS_HOST: "10.72.64.229"
+            REDIS_DATABASE: "0"
+            REDIS_PORT: "36379"
+            REDIS_PASSWORD: "ttx2011"
+            AUTHREDIS_HOST: "10.72.64.229"
+            AUTHREDIS_DATABASE: "0"
+            ### rabbit
+            RABBIT_HOST: "10.72.64.229"
+            RABBIT_PORT: "35672"
+            RABBIT_USERNAME: "ttx"
+            RABBIT_PASSWORD: "ttx2011"
+            RABBIT_VIRTUAL_HOST: "/loreal-wms-prod"
+            # mongo
+            MONGO_HOST: "10.72.64.229"
+            MONGO_PORT: "37017"
+            MONGO_DB: "loreal-wms-prod"
+            MONGO_USERNAME: "ttx"
+            MONGO_PASSWORD: "ttx2011"

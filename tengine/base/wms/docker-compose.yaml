@@ -5,7 +5,8 @@ services:
         container_name: wms
         ports:
             - "6001:9210/tcp"
-        #mem_limit: 1g
+        volumes:
+            - ./application-k8s.yml:/app/resources/application-k8s.yml
         environment:
             TZ: "Asia/Shanghai"
             LICENSE_SERVER: http://10.72.64.229:30008

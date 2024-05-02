@@ -45,7 +45,7 @@ RUN if [ -z "$TENGINE_VERSION" ]; then \
 
 EXPOSE 8080
 RUN curl -u developer:95bb05e9-1540-4caa https://nexus.loghub.com/repository/releases/com/ittx/cbt-web/2.9.24.1/cbt-web-2.9.24.1.tar.gz -o cbt-web-2.9.24.1.tar.gz
-RUN tar zxvf cbt-web-2.9.24.1.tar.gz \
+RUN tar zxvf cbt-web-2.9.24.1.tar.gz
 COPY release /opt/web
 RUN mkdir -p /tmp/base
 COPY base /tmp/base

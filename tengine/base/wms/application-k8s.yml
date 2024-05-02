@@ -1,0 +1,336 @@
+# Max file size.
+spring.servlet.multipart:
+    max-file-size: 100MB
+    # Max request size.
+    max-request-size: 100MB
+server.max-http-header-size: 128KB
+logging:
+    config: classpath:logback-k8s.xml
+cybertrans:
+    path: /home/ttx/excel
+    sfwhiteIp: 0.0.0.0
+    extraSecurityUris:
+        - '/rest/cbt/exitPoint/'
+    adminSessionExpired: ${ADMIN_SESSION_EXPIRED:100}
+    saml:
+        azure:
+            enabled: true
+            name: 微软云验证
+            icon: https://azure.microsoft.com/en-us/patterns/styles/glyphs-icons/azure-blue.svg
+            defaultOrg: Loreal
+            relyingPartyIdentifier: 813b6d89-363e-4d98-9aeb-531987bc7404 # 应用 entity id
+            metadataLocation: classpath:FederationMetadata.xml # metadata 文件
+            #            publicKeyCrt: classpath:key.crt # 如果启用加密，需要。（公钥）
+            #            privateKeyPk8: classpath:key.pk8 # 如果启用加密，需要。（私钥）
+            #nameIdPolicy: default # nameId 策略， default/azureName/
+            extractMailPrefix: true # Azure专属，用户名是否使用解析的邮件前缀
+            assertionConsumerServiceUrl: '' # 断言消费者服务的地址。（一般从 metadata 中获取，无需配置）
+            accountAutoRegister: false # 自动创建用户，默认false
+    initializer:
+        cbtModel: config/wms
+    portal:
+        enabled: false
+    audit:
+        rules:
+            methodArgumentNotValid: false
+    extension: # 系统管理->初始化->安装
+        origin: http://ttx-download.oss-cn-hangzhou.aliyuncs.com/cybertrans/web/next-wms
+        location: /home/ttx/app/extensions
+    config:
+        export:
+            waitMs: 500 # 轮训查结果,等待时间毫秒
+            waitTimes: 10 # 轮训查结果次数
+        homePage: ${CBT_HOME_PAGE:/index.html?customer=ttx-xwms-test&lang=zh}
+        # 数据权限
+        right:
+            tables:
+                - ttx_organization
+                - warehouse
+                - company
+                - adjustment_type
+                - vendor
+                - channel
+                - build
+                - customer1
+            rest:
+                shipment_header: company:companyCode|value2,warehouseCode|value1;channel:channelCode|value2
+                shipping_container_header: company:companyCode|value2,warehouseCode|value1
+                receipt_header: company:companyCode|value2,warehouseCode|value1
+                receipt_container: company:companyCode|value2,warehouseCode|value1
+                item: company:companyCode|value2,warehouseCode|value1
+                company: company:code|value2,warehouseCode|value1
+                adjustment_type: adjustment_type:code|value2,warehouseCode|value1
+                ttx_organization: ttx_organization:code|value1
+                ttx_user: ttx_organization:orgCode|value1
+                warehouse: warehouse:code|value1;ttx_organization:orgCode|value1
+                vendor: company:companyCode|value2,warehouseCode|value1;vendor:code|value3,companyCode|value2,warehouseCode|value1
+                appointment: company:companyCode|value2,warehouseCode|value1;vendor:vendorCode|value3,companyCode|value2,warehouseCode|value1
+                purchase_order_header: company:companyCode|value2,warehouseCode|value1
+                channel: channel:code|value2,warehouseCode|value1
+                build: build:code|value2,warehouseCode|value1
+                receiving_preference: build:buildCode|value2,warehouseCode|value1
+        login:
+            timeoutSeconds:
+                browser: 18000 # 浏览器登录的服务端超时时间 second
+                mobile: 18000 # 移动端登录的服务端超时时间 second
+            failTimes: 5 # 最大尝试次数
+            freezeSeconds: 1800 # 超过最大尝试次数的冻结时间 second
+            kickOffOthers: false # 登录时是否提下线其他同用户的登录
+            mfaTimeoutSeconds: 60
+            successLogEnabled: true
+            captcha: 'none' #captcha
+            defaultAuthType: normal,ldap # 用户支持的默认登陆方式,逗号隔开，此项如果不配置则默认为`normal`
+        host:
+            name: ${HOST_NAME:ttx-wms-1}
+        server:
+            port: 9001
+            id: 8bc7938343be4017910185741cd31781
+
+    elasticsearch:
+        hosts: ${ES_HOST:}
+        username: ${ES_USERNAME:}
+        password: ${ES_PASSWORD:}
+    logging:
+        error:
+            type: ${LOGGING_ERROR:mongo}
+            async: true
+            expireDays: 30
+        login:
+            type: ${LOGGING_LOGIN:mongo}
+            async: true
+            expireDays: 30
+        logout:
+            type: ${LOGGING_LOGOUT:mongo}
+            async: true
+            expireDays: 30
+        excelImport:
+            type: ${LOGGING_EXCEL_IMPORT:mongo}
+            async: true
+            expireDays: 30
+        export:
+            type: ${LOGGING_EXPORT:mongo}
+            async: true
+            expireDays: 30
+        config:
+            type: mongo
+            async: true
+            expireDays: 30
+        dataUpdate:
+            type: mongo
+            async: true
+            expireDays: 30
+        process:
+            type: mongo
+            async: true
+            expireDays: 30
+        scheduler:
+            type: mongo
+            async: true
+            expireDays: 30
+        warnNotify:
+            type: mongo
+            async: true
+            expireDays: 30
+        rfException:
+            type: mongo
+            async: true
+            expireDays: 30
+        audit:
+            type: mongo
+            async: true
+            expireDays: 7
+            debug: true
+        redisson:
+            type: mongo
+            async: true
+            expireDays: 30
+            debug: false
+    cluster:
+        enabled: true
+        licenseServer: ${LICENSE_SERVER:http://license.cybertrans.ittx.com.cn/}
+    excel:
+        type: xlsx-s
+    ldap:
+        url: ${LADP_URL:}
+        base: ${LDAP_BASE:}
+    redis:
+        database: ${REDIS_DATABASE:0}
+        cluster: ${REDIS_CLUSTER:false}
+        host: ${REDIS_HOST:cybertrans.ittx.com.cn}
+        timeout: ${REDIS_TIMEOUT:2000}
+        password: ${REDIS_PASSWORD:}
+        port: ${REDIS_PORT:36378}
+        pool:
+            maxIdle: 100
+            maxTotal: 200
+            maxWaitMillis: 1000
+    authredis:
+        database: ${REDIS_DATABASE:1}
+        cluster: ${REDIS_CLUSTER:false}
+        host: ${REDIS_HOST:cybertrans.ittx.com.cn}
+        timeout: ${REDIS_TIMEOUT:2000}
+        password: ${REDIS_PASSWORD:}
+        port: ${REDIS_PORT:36378}
+        pool:
+            maxIdle: 100
+            maxTotal: 200
+            maxWaitMillis: 1000
+    mongo:
+        host: ${MONGO_HOST:cybertrans.ittx.com.cn}
+        port: ${MONGO_PORT:37017}
+        database: cbt29wms32
+        username: ${MONGO_USERNAME:}
+        password: ${MONGO_PASSWORD:}
+        connectionsPerHost: 100
+        expireDays:
+            printData: 30
+    rabbitmq:
+        enabled: true
+        host: ${RABBIT_HOST:cybertrans.ittx.com.cn} # connection host
+        port: ${RABBIT_PORT:34672} # 5772 # connection port
+        username: ${RABBIT_USERNAME:ttx}
+        password: ${RABBIT_PASSWORD:ttx2011}
+        autoDeclare: true #默认true;false表示不自动声明
+        concurrency: 10
+        maxConcurrency: 20
+        virtualHost: ${RABBIT_VIRTUAL_HOST:/}
+        allowedPatterns:
+            - 'java.lang.Boolean'
+            - 'org.springframework.util.*'
+    ais:
+        queueGroup:
+            'cbt.ais.healthcheck2': 1
+            'cbt.currentlimit.task': 10
+            'wms.wave': 10
+            'wms.shipment.getWaybillCode': 10
+            'wms.shipment.afterInterface': 10
+            'wms.shipment.afterUpdateStatus': 10
+            'wms.shipment.getWaybillCodeForRetry': 10
+            'wms.serialNumber.saveWhenRec': 10
+            'wms.serialNumber.saveWhenShip': 10
+            'wms.task.confirmDetail': 10
+            'wms.fdc.pushShipment': 1
+            'wms.fdc.pushShipmentConfirm': 60
+            'wms.fdc.fdcBomPush': 1
+            'wms.fdc.fdcBomPushAsync': 30
+            'wms.fdc.afterShipmentConfirm': 30
+            'wms.sftp.afterReadSftpTxt': 50
+            'wms.fdc.adjustInvAfterShip': 1
+            'wms.sap.adjust.inventory': 1 # SAP质检放行接口
+
+    datasource:
+        loreal-wms-dev:
+            url: ${MYSQL_URL:jdbc:mysql://cybertrans.ittx.com.cn:33306/xwms_3_2?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true}
+            username: ${MYSQL_USERNAME:ttx}
+            password: ${MYSQL_PASSWORD:ttx2011}
+            driverClassName: com.mysql.cj.jdbc.Driver
+            initialSize: 100
+            maxActive: 500
+            maxIdle: 400
+            minIdle: 100
+            testWhileIdle: true
+            validationQuery: SELECT 1
+            validationInterval: 30000
+            connectionTimeout: 30000
+            validationQueryTimeout: 500
+            isApp: true
+    rowmapper:
+        duplicatedColumnValue: last
+
+aliyun:
+    afs:
+        appKey: ${AFS_APP_KEY:}
+        accessKey: ${AFS_ACCESS_KEY:}
+        accessSecret: ${AFS_ACCESS_SECRET:}
+    sms:
+        accessKey: ${ALIYUN_SMS_ACCESS_KEY:}
+        accessSecret: ${ALIYUN_SMS_ACCESS_SECRET:}
+        regionId: ${ALIYUN_SMS_REGION_ID:cn-hangzhou:}
+        configs:
+            register:
+                signName: ${ALIYUN_SMS_REGISTER_SIGN:}
+                templateCode: ${ALIYUN_SMS_REGISTER_TEMPLATE:}
+            login:
+                signName: ${ALIYUN_SMS_LOGIN_SIGN:}
+                templateCode: ${ALIYUN_SMS_LOGIN_TEMPLATE:}
+            warnNotify:
+                signName: ${ALIYUN_SMS_WARN_NOTIFY_SIGN:}
+                templateCode: ${ALIYUN_SMS_WARN_NOTIFY_TEMPLATE:}
+            findPassword:
+                signName: ${ALIYUN_SMS_FIND_PASSWORD_SIGN:}
+                templateCode: ${ALIYUN_SMS_FIND_PASSWORD_TEMPLATE:}
+
+management:
+    health:
+        mail:
+            enabled: false
+
+# Email
+spring:
+    cloud:
+        nacos:
+            config:
+                server-addr: ${NACOS_CONFIG_SERVER:127.0.0.1:8848}
+                data-id: ${NACOS_CONFIG_DATA_ID:application-application-k8s.yml}
+                group: ${NACOS_CONFIG_GROUP:XWMS_PROD}
+                type: ${NACOS_CONFIG_TYPE:yaml}
+                remote-first: ${NACOS_CONFIG_REMOTE_FIRST:true}
+                bootstrap:
+                    enable: ${NACOS_CONFIG_BOOTSTRAP_ENABLE:true}
+                enabled: false
+            discovery:
+                server-addr: ${NACOS_DISCOVERY_SERVER:127.0.0.1:8848}
+                autoRegister: ${NACOS_DISCOVERY_AUTOREGISTER:true}
+                enabled: ${NACOS_DISCOVERY_ENABLED:false}
+                group: ${NACOS_CONFIG_GROUP:XWMS_PROD}
+    mail:
+        host:
+        port: 994
+        username:
+        password:
+        default-encoding: UTF-8
+        properties:
+            mail.smtp:
+                auth: true
+                ssl.enable: true
+                starttls:
+                    enable: true
+                    required: true
+    flyway:
+        enabled: false
+        validate-on-migrate: false
+        baseline-on-migrate: false
+        baseline-version: 0
+        locations: classpath:db/migration
+        url: ${MYSQL_URL:jdbc:mysql://cybertrans.ittx.com.cn:33306/xwms_3_2?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true}
+        user: ${MYSQL_USERNAME:ttx}
+        password: ${MYSQL_PASSWORD:ttx2011}
+        placeholder-prefix: 'flyway:'
+
+wms:
+    threadpool:
+        map:
+            pool1:
+                corePoolSize: 10
+                maximumPoolSize: 20
+                keepAliveTime: 5000 # ms
+                queueCapacity: 500 # 小于等于0：表示无边界队列
+        group:
+            common: pool1
+            standalone:
+                ShipmentAllocation: pool1
+    kpi:
+        enabled: false
+        remoteUrl: http://118.31.245.56:40001/kpi/new
+        clientCode: TTX
+        clientName: TTX
+        job1: # 每小时执行一次
+            cron: 0 5 */1 * * ?
+            types:
+                - KpiDetail
+                - KpiTop
+                - Order
+        job2: # 每天执行一次
+            cron: 0 20 0 * * ?
+            types:
+                - Inventory

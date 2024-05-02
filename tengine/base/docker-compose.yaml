@@ -65,6 +65,61 @@ services:
             - TZ=Asia/Shanghai # 设置时区
         networks:
             - base-net
+    scheduler:
+        image: registry.cn-hangzhou.aliyuncs.com/loghub/cbt-scheduler:2.9.7
+        container_name: scheduler
+        logging:
+            options:
+                max-file: "3"
+                max-size: "20m"
+        environment:
+            - TZ=Asia/Shanghai
+            - NACOS_DISCOVERY_ENABLED=false
+            - MONGO_HOST=mongo
+            - MONGO_PORT=27017
+            - MONGO_USERNAME=ttx
+            - MONGO_PASSWORD=ttx2011
+            - MONGO_DB_LIST=["loreal-wms-prod"]
+        ports:
+            - "9214:9221"
+        networks:
+            - base-net
+    wms:
+        image: tangxm1314/wms
+        container_name: wms
+        ports:
+            - "6001:9210/tcp"
+        volumes:
+            - ./wms/application-k8s.yml:/app/resources/application-k8s.yml
+        environment:
+            TZ: "Asia/Shanghai"
+            LICENSE_SERVER: http://10.72.64.229:30008
+            CBT_HOME_PAGE: "/index.html?customer=loreal-wms-prod&lang=zh"
+            # mysql
+            MYSQL_URL: "jdbc:mysql://mysql/loreal-wms-prod?autoReconnect=true&failOverReadOnly=false&useUnicode=true&characterEncoding=UTF-8&useSSL=false"
+            MYSQL_USERNAME: "root"
+            MYSQL_PASSWORD: "ttx2011"
+            # redis
+            REDIS_HOST: "redis"
+            REDIS_DATABASE: "0"
+            REDIS_PORT: "6379"
+            REDIS_PASSWORD: "ttx2011"
+            AUTHREDIS_HOST: "redis"
+            AUTHREDIS_DATABASE: "0"
+            ### rabbit
+            RABBIT_HOST: "rabbitmq"
+            RABBIT_PORT: "5672"
+            RABBIT_USERNAME: "ttx"
+            RABBIT_PASSWORD: "ttx2011"
+            RABBIT_VIRTUAL_HOST: "/wms1"
+            # mongo
+            MONGO_HOST: "mongo"
+            MONGO_PORT: "27017"
+            MONGO_DB: "loreal-wms-prod"
+            MONGO_USERNAME: "ttx"
+            MONGO_PASSWORD: "ttx2011"
+        networks:
+            - base-net
 networks:
     base-net:
         driver: bridge

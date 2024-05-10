@@ -10,7 +10,7 @@ ENV TENGINE_VERSION="${TENGINE_VERSION}" \
   TENGINE_BASEDIR="/usr/local/nginx"
 
 # get all the dependences and nginx
-RUN yum install -y git gcc make wget pcre pcre-devel openssl openssl-devel \
+RUN yum install -y git gcc make wget pcre pcre-devel openssl openssl-devel unzip\
   && rm -rf /var/cache/yum/* \
   && groupadd -g 1001 www \
   && useradd -u 1001 -g www -s /sbin/nologin www \
@@ -46,9 +46,11 @@ RUN if [ -z "$TENGINE_VERSION" ]; then \
 EXPOSE 8080
 RUN curl -u developer:95bb05e9-1540-4caa https://nexus.loghub.com/repository/releases/com/ittx/cbt-web/2.9.24.1/cbt-web-2.9.24.1.tar.gz -o cbt-web-2.9.24.1.tar.gz
 RUN tar zxvf cbt-web-2.9.24.1.tar.gz
-COPY release /opt/web
+RUN mv release /opt/web && rm cbt-web-2.9.24.1.tar.gz
 RUN mkdir -p /tmp/base
 COPY base /tmp/base
+RUN cd /tmp/base && mkdir tomcat && cd tomcat && wget http://ttx-download.oss-cn-hangzhou.aliyuncs.com/cybertrans/deploy/tomcat-deploy-2.0.zip && unzip tomcat-deploy-2.0.zip && rm tomcat-deploy-2.0.zip
+RUN cd /tmp/base && mkdir license && cd license && wget http://ttx-download.oss-cn-hangzhou.aliyuncs.com/cybertrans/license/license.zip && wget http://ttx-download.oss-cn-hangzhou.aliyuncs.com/cybertrans/license/run.sh
 COPY nginx.conf ${TENGINE_BASEDIR}/conf/
 COPY proxy.conf ${TENGINE_BASEDIR}/conf/
 

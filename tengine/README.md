@@ -1,6 +1,8 @@
 ```shell
-docker build -t tangxm1314/tengine:0.01 .
-docker push tangxm1314/tengine:0.01
+docker build -t tangxm1314/ttx:tengine.0.01 .
+docker push tangxm1314/ttx:tengine.0.01
+docker tag tangxm1314/ttx:tengine.0.01 tangxm1314/ttx:tengine.latest
+docker push tangxm1314/ttx:tengine.latest
 ```
 
 ```shell

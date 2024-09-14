@@ -19,8 +19,6 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash
 RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
     && yum clean all
 
-ENV JAVA_VERSION jdk8u382-b01
-
 ARG EDITION=extended
 
 ARG D_VERSION=8.18.19
@@ -67,8 +65,8 @@ ENV JAVA_HOME=/opt/java/openjdk \
     PATH="/opt/java/openjdk/bin:$PATH"
 
 RUN rm -rf /var/cache/*/*
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN echo "Asia/Shanghai" > /etc/timezone
+# RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# RUN echo "Asia/Shanghai" > /etc/timezone
 # copy arthas
 COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
 

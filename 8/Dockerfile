@@ -22,9 +22,9 @@ RUN bash source.sh
 RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
     && yum clean all
 
-ARG EDITION=extended
+ARG EDITION=xxx
 
-ARG D_VERSION=8.18.19
+ARG D_VERSION=xxx
 
 COPY 8/install.sh install.sh
 RUN bash install.sh

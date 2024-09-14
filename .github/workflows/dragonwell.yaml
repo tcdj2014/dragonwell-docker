@@ -86,7 +86,7 @@ jobs:
         with:
           file: 8/Dockerfile
           context: .
-          build-args: [ EDITION=extended,D_VERSION=8.20.21 ]
+          build-args: "EDITION=extended,D_VERSION=8.20.21"
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8-latest,${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/tengine:8-${{ env.TAG_VERSION }}

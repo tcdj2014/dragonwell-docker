@@ -15,6 +15,9 @@ FROM alibaba-cloud-linux-3-registry.cn-hangzhou.cr.aliyuncs.com/alinux3/alinux3:
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash'
 
+COPY 8/source.sh .
+RUN sh source.sh
+
 # /usr/bin/tini 位置
 RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
     && yum clean all
@@ -22,6 +25,7 @@ RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip 
 ARG EDITION=extended
 
 ARG D_VERSION=8.18.19
+# https://github.com/dragonwell-project/dragonwell8/releases/download/dragonwell-standard-8.20.21_jdk8u422-ga/Alibaba_Dragonwell_Standard_8.20.21_aarch64_linux-sbom.json
 
 # https://github.com/dragonwell-project/dragonwell8/wiki/下载镜像(Mirrors-for-download)
 RUN set -eux; \

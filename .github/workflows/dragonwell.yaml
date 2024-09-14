@@ -7,6 +7,7 @@ on:
       - v*
     paths:
       - '8/Dockerfile'
+      - '8/source.sh'
 
 
 env:
@@ -83,6 +84,9 @@ jobs:
         with:
           file: 8/Dockerfile
           context: .
+          build-args:
+            - EDITION=extended
+            - D_VERSION=8.18.19
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8-latest,${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/tengine:8-${{ env.TAG_VERSION }}

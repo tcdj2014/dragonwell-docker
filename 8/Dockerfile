@@ -25,45 +25,46 @@ RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip 
 ARG EDITION=extended
 
 ARG D_VERSION=8.18.19
-# https://github.com/dragonwell-project/dragonwell8/releases/download/dragonwell-standard-8.20.21_jdk8u422-ga/Alibaba_Dragonwell_Standard_8.20.21_aarch64_linux-sbom.json
+## https://github.com/dragonwell-project/dragonwell8/wiki/下载镜像(Mirrors-for-download)
 
-# https://github.com/dragonwell-project/dragonwell8/wiki/下载镜像(Mirrors-for-download)
-RUN set -eux; \
-    ARCH="$(objdump="$(command -v objdump)" && objdump --file-headers "$objdump" | awk -F '[:,]+[[:space:]]+' '$1 == "architecture" { print $2 }')"; \
-    case "${ARCH}" in \
-       aarch64|arm64) \
-         if [ "${EDITION}" = "extended" ];then \
-           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_aarch64_linux.tar.gz; \
-           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
-           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
-         else \
-           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_aarch64_linux.tar.gz; \
-           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
-           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
-         fi \
-         ;; \
-       amd64|i386:x86-64) \
-         if [ "${EDITION}" = "extended" ];then \
-           BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_x64_linux.tar.gz; \
-           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
-           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
-         else \
-           BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz; \
-           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
-           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
-         fi \
-         ;; \
-       *) \
-         echo "Unsupported arch: ${ARCH}"; \
-         exit 1; \
-         ;; \
-    esac; \
-    curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
-    echo "${ESUM:0:64} */tmp/openjdk.tar.gz" | sha256sum -c -; \
-    mkdir -p /opt/java/openjdk; \
-    cd /opt/java/openjdk; \
-    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
-    rm -rf /tmp/openjdk.tar.gz;
+COPY 8/install.sh install.sh
+RUN bash install.sh
+#RUN set -eux; \
+#    ARCH="$(objdump="$(command -v objdump)" && objdump --file-headers "$objdump" | awk -F '[:,]+[[:space:]]+' '$1 == "architecture" { print $2 }')"; \
+#    case "${ARCH}" in \
+#       aarch64|arm64) \
+#         if [ "${EDITION}" = "extended" ];then \
+#           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_aarch64_linux.tar.gz; \
+#           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
+#           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
+#         else \
+#           BINARY_URL='https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_aarch64_linux.tar.gz; \
+#           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
+#           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
+#         fi \
+#         ;; \
+#       amd64|i386:x86-64) \
+#         if [ "${EDITION}" = "extended" ];then \
+#           BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_x64_linux.tar.gz; \
+#           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
+#           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
+#         else \
+#           BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz; \
+#           curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt'; \
+#           ESUM=$(<tmp/openjdk.tar.gz.sha256.txt); \
+#         fi \
+#         ;; \
+#       *) \
+#         echo "Unsupported arch: ${ARCH}"; \
+#         exit 1; \
+#         ;; \
+#    esac; \
+#    curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
+#    echo "${ESUM:0:64} */tmp/openjdk.tar.gz" | sha256sum -c -; \
+#    mkdir -p /opt/java/openjdk; \
+#    cd /opt/java/openjdk; \
+#    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
+#    rm -rf /tmp/openjdk.tar.gz;
 
 ENV JAVA_HOME=/opt/java/openjdk \
     PATH="/opt/java/openjdk/bin:$PATH"

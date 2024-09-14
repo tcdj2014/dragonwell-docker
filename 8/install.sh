@@ -1,5 +1,6 @@
 #!/bin/bash
 
+## https://github.com/dragonwell-project/dragonwell8/wiki/下载镜像(Mirrors-for-download)
 ARCH="$(uname -m)"
 case "${ARCH}" in
   x86_64)

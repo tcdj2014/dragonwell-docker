@@ -8,6 +8,7 @@ on:
     paths:
       - '8/Dockerfile'
       - '8/source.sh'
+      - '8/install.sh'
 
 
 env:

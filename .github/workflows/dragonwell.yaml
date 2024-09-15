@@ -93,4 +93,4 @@ jobs:
           push: true
           tags: |
             ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8-latest
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/tengine:8-${{ env.TAG_VERSION }}
+            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8-${{ env.TAG_VERSION }}

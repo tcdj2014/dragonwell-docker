@@ -22,7 +22,7 @@ RUN bash source.sh
 RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
     && yum clean all
 
-ARG EDITION=xxx
+ARG EDITION=extended
 
 ARG D_VERSION=xxx
 

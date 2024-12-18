@@ -81,7 +81,7 @@ jobs:
           username: ${{ secrets.ALIYUN_REGISTRY_USER }}
           password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
 
-      - name: Build and push dragonwell base
+      - name: Build and push dragonwell amd64 base
         uses: docker/build-push-action@v6
         with:
           file: 8/Dockerfile
@@ -89,8 +89,22 @@ jobs:
           build-args: |
             EDITION=extended
             D_VERSION=8.20.21
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: |
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8-latest
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8-${{ env.TAG_VERSION }}
+            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_amd64_latest
+            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_amd64_${{ env.TAG_VERSION }}
+
+      - name: Build and push dragonwell arm64 base
+        uses: docker/build-push-action@v6
+        with:
+          file: 8/Dockerfile
+          context: .
+          build-args: |
+            EDITION=extended
+            D_VERSION=8.20.21
+          platforms: linux/arm64
+          push: true
+          tags: |
+            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_arm64_latest
+            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_arm64_${{ env.TAG_VERSION }}

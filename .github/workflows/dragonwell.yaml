@@ -57,11 +57,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # - name: Set up QEMU
-      #   uses: docker/setup-qemu-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all # 支持所有平台，包括 arm64
 
-      - name: Docker Setup Buildx
-        uses: docker/setup-buildx-action@v3
+      # - name: Docker Setup Buildx
+      #   uses: docker/setup-buildx-action@v3
 
       - name: Set the value
         id: step_one
@@ -82,29 +84,27 @@ jobs:
           password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
 
       - name: Build and push dragonwell amd64 base
-        uses: docker/build-push-action@v6
-        with:
-          file: 8/Dockerfile
-          context: .
-          build-args: |
-            EDITION=extended
-            D_VERSION=8.20.21
-          platforms: linux/amd64
-          push: true
-          tags: |
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_amd64_latest
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_amd64_${{ env.TAG_VERSION }}
+        run: |
+          echo "Building for AMD64..."
+          # 设置 DOCKER_DEFAULT_PLATFORM 以确保默认使用 amd64
+          export DOCKER_DEFAULT_PLATFORM=linux/amd64
+          # 打包镜像并上传
+          echo "docker build dragonwell amd64 base"
+          docker build -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }} -f 8/Dockerfile .
+          echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }}"
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }}
+          docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_latest
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_latest
 
       - name: Build and push dragonwell arm64 base
-        uses: docker/build-push-action@v6
-        with:
-          file: 8/Dockerfile
-          context: .
-          build-args: |
-            EDITION=extended
-            D_VERSION=8.20.21
-          platforms: linux/arm64
-          push: true
-          tags: |
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_arm64_latest
-            ${{ vars.ALIYUN_REGISTRY }}/${{ vars.ALIYUN_NAME_SPACE }}/dragonwell:8_arm64_${{ env.TAG_VERSION }}
+        run: |
+          echo "Building for ARM64..."
+          # 设置 DOCKER_DEFAULT_PLATFORM 以确保默认使用 arm64
+          export DOCKER_DEFAULT_PLATFORM=linux/arm64
+          # 打包镜像并上传
+          echo "docker build dragonwell arm64 base"
+          docker build -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }} -f 8/Dockerfile .
+          echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }}"
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }}
+          docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_latest
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_latest

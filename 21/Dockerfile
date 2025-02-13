@@ -24,7 +24,8 @@ RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip 
 
 ARG EDITION=extended
 
-ARG D_VERSION=xxx
+ARG D_VERSION_1=xxx
+ARG D_VERSION_2=xxx
 
 COPY 21/install.sh install.sh
 RUN bash install.sh

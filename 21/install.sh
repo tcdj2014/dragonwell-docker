@@ -1,27 +1,27 @@
 #!/bin/bash
-
+#https://dragonwell.oss-cn-shanghai.aliyuncs.com/21.0.5.0.5%2B9/Alibaba_Dragonwell_Standard_21.0.5.0.5.9_aarch64_linux-sbom.json
 ## https://github.com/dragonwell-project/dragonwell21/wiki/下载镜像(Mirrors-for-download)
 ARCH="$(uname -m)"
 case "${ARCH}" in
   x86_64)
     if [ "${EDITION}" = "extended" ];then
-      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_x64_linux.tar.gz;
+      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION_1}/Alibaba_Dragonwell_Extended_${D_VERSION_2}_x64_linux.tar.gz;
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     else
-      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz;
+      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION_1}/Alibaba_Dragonwell_Standard_${D_VERSION_2}_x64_linux.tar.gz;
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
     ;;
   aarch64|arm64)
     if [ "${EDITION}" = "extended" ];then
-      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_x64_linux.tar.gz;
-      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Extended_${D_VERSION}_aarch64_linux.tar.gz;
+      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION_1}/Alibaba_Dragonwell_Standard_${D_VERSION_2}_x64_linux.tar.gz;
+      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION_1}/Alibaba_Dragonwell_Extended_${D_VERSION_2}_aarch64_linux.tar.gz;
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     else
-      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION}/Alibaba_Dragonwell_Standard_${D_VERSION}_aarch64_linux.tar.gz;
+      BINARY_URL=https://dragonwell.oss-cn-shanghai.aliyuncs.com/${D_VERSION_1}/Alibaba_Dragonwell_Standard_${D_VERSION_2}_aarch64_linux.tar.gz;
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi

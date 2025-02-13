@@ -15,7 +15,7 @@ FROM alibaba-cloud-linux-3-registry.cn-hangzhou.cr.aliyuncs.com/alinux3/alinux3:
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash'
 
-COPY 8/source.sh source.sh
+COPY 21/source.sh source.sh
 RUN bash source.sh
 
 # /usr/bin/tini 位置

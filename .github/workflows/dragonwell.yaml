@@ -95,6 +95,12 @@ jobs:
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }}
           docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_latest
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_latest
+          
+          docker build --build-arg EDITION=extended --build-arg D_VERSION=21.0.5.0.5.9 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }} -f 21/Dockerfile .
+          echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }}"
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }}
+          docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_latest
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_latest
 
       - name: Build and push dragonwell arm64 base
         run: |
@@ -108,3 +114,9 @@ jobs:
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }}
           docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_latest
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_latest
+          
+          docker build --build-arg EDITION=extended --build-arg D_VERSION=21.0.5.0.5.9 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }} -f 21/Dockerfile .
+          echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }}"
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }}
+          docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_latest
+          docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_latest

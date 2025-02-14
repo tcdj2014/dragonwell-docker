@@ -28,6 +28,8 @@ ARG NODE_VERSION=20
 # Download and install fnm:
 RUN curl -o- https://fnm.vercel.app/install | bash
 
+RUN ls -la /root/.local/share/fnm
+
 # Download and install Node.js:
 RUN /root/.local/share/fnm install ${NODE_VERSION}
 

@@ -13,6 +13,8 @@ case "${ARCH}" in
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
+    # 安装Node.js
+    curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz | tar -xJf - -C /usr/local --strip-components=1 && node -v && npm -v
     ;;
   aarch64|arm64)
     if [ "${EDITION}" = "extended" ];then
@@ -25,6 +27,8 @@ case "${ARCH}" in
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
+    # 安装Node.js
+    curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz | tar -xJf - -C /usr/local --strip-components=1 && node -v && npm -v
     ;;
   *)
      echo "不支持的系统版本: ${ARCH}"

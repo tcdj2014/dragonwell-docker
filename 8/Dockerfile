@@ -22,7 +22,7 @@ ARG EDITION=extended
 
 ARG D_VERSION=xxx
 ARG GRADLE_VERSION=6.9.4
-ARG NODE_VERSION=20
+ARG NODE_VERSION=20.18.3
 
 COPY 8/install.sh install.sh
 RUN bash install.sh

@@ -14,7 +14,7 @@ case "${ARCH}" in
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
     # 安装Node.js
-
+    echo "安装Node.js https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz"
     curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz | tar -xJf - -C /usr/local --strip-components=1
     # 如果下载失败则退出
     if [ $? -ne 0 ]; then
@@ -34,6 +34,7 @@ case "${ARCH}" in
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
     # 安装Node.js
+    echo "安装Node.js https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz"
     curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz | tar -xJf - -C /usr/local --strip-components=1
     # 如果下载失败则退出
     if [ $? -ne 0 ]; then

@@ -13,8 +13,14 @@ case "${ARCH}" in
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
-    # 安装Node.js 20
-    curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz | tar -xJf - -C /usr/local --strip-components=1 && node -v && npm -v
+    # 安装Node.js
+    echo "安装Node.js https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz"
+    curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz | tar -xJf - -C /usr/local --strip-components=1
+    # 如果下载失败则退出
+    if [ $? -ne 0 ]; then
+      echo "Node.js 安装失败，请检查网络连接或重试。"
+      exit 1
+    fi
     ;;
   aarch64|arm64)
     if [ "${EDITION}" = "extended" ];then
@@ -27,8 +33,14 @@ case "${ARCH}" in
       curl -LfsSo /tmp/openjdk.tar.gz.sha256.txt ${BINARY_URL}'.sha256.txt';
       ESUM=$(<tmp/openjdk.tar.gz.sha256.txt);
     fi
-    # 安装Node.js 20
-    curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz | tar -xJf - -C /usr/local --strip-components=1 && node -v && npm -v
+    # 安装Node.js
+    echo "安装Node.js https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz"
+    curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.xz | tar -xJf - -C /usr/local --strip-components=1
+    # 如果下载失败则退出
+    if [ $? -ne 0 ]; then
+      echo "Node.js 安装失败，请检查网络连接或重试。"
+      exit 1
+    fi
     ;;
   *)
      echo "不支持的系统版本: ${ARCH}"

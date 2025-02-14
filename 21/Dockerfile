@@ -16,6 +16,8 @@ FROM registry.cn-hangzhou.aliyuncs.com/xmtang/dragonwell:base_latest
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash'
 
+SHELL ["/bin/bash", "-c"]
+
 ARG EDITION=extended
 
 ARG D_VERSION_1=xxx
@@ -45,10 +47,10 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 RUN curl -o- https://fnm.vercel.app/install | bash
 
 # Download and install Node.js:
-RUN bash fnm install ${NODE_VERSION}
+RUN fnm install ${NODE_VERSION}
 
 # 使用npm安装coffeescript和stylus
-RUN bash npm install -g coffeescript@1.12.7 stylus
+RUN npm install -g coffeescript@1.12.7 stylus
 
 # 验证安装
 RUN gradle -v && \

@@ -46,6 +46,8 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 # Download and install fnm:
 RUN curl -o- https://fnm.vercel.app/install | bash
 
+RUN source /root/.bashrc
+
 # Download and install Node.js:
 RUN fnm install ${NODE_VERSION}
 

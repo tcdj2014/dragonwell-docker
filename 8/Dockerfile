@@ -35,8 +35,7 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
     rm gradle-${GRADLE_VERSION}-bin.zip
 
 ENV JAVA_HOME=/opt/java/openjdk \
-    PATH="/opt/java/openjdk/bin:$PATH" \
-    PATH="/opt/gradle/bin:$PATH"
+    PATH="/opt/gradle/bin:/opt/java/openjdk/bin:$PATH"
 
 RUN rm -rf /var/cache/*/*
 # RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime

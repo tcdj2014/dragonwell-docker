@@ -24,17 +24,6 @@ ARG D_VERSION=xxx
 ARG GRADLE_VERSION=6.9.4
 ARG NODE_VERSION=20
 
-# 安装Node.js
-# Download and install fnm:
-RUN curl -o- https://fnm.vercel.app/install | bash
-
-# Download and install Node.js:
-RUN ls -la /root/.local/share/fnm
-RUN /root/.local/share/fnm/fnm install ${NODE_VERSION}
-
-# 使用npm安装coffeescript和stylus
-RUN npm install -g coffeescript@1.12.7 stylus
-
 COPY 8/install.sh install.sh
 RUN bash install.sh
 

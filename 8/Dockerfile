@@ -27,19 +27,20 @@ ARG NODE_VERSION=20.18.3
 COPY 8/install.sh install.sh
 RUN bash install.sh
 
-ENV JAVA_HOME=/opt/java/openjdk \
-    PATH="/opt/java/openjdk/bin:$PATH"
-
-RUN rm -rf /var/cache/*/*
-# RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-# RUN echo "Asia/Shanghai" > /etc/timezone
-
 # 安装Gradle
 RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
     unzip gradle-${GRADLE_VERSION}-bin.zip -d /opt/ && \
     ln -s /opt/gradle-${GRADLE_VERSION} /opt/gradle && \
     echo 'export PATH=$PATH:/opt/gradle/bin' >> /etc/profile && \
     rm gradle-${GRADLE_VERSION}-bin.zip
+
+ENV JAVA_HOME=/opt/java/openjdk \
+    PATH="/opt/java/openjdk/bin:$PATH" \
+    PATH="/opt/gradle/bin:$PATH"
+
+RUN rm -rf /var/cache/*/*
+# RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# RUN echo "Asia/Shanghai" > /etc/timezone
 
 # 验证安装
 RUN gradle -v && \

@@ -93,13 +93,13 @@ jobs:
           export DOCKER_DEFAULT_PLATFORM=linux/amd64
           # 打包镜像并上传
           echo "docker build dragonwell amd64 base"
-          docker build --build-arg EDITION=extended --build-arg D_VERSION=8.20.21 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }} -f 8/Dockerfile .
+          docker build --build-arg NODE_VERSION=20.11.0 --build-arg GRADLE_VERSION=6.9.4 --build-arg EDITION=extended --build-arg D_VERSION=8.20.21 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }} -f 8/Dockerfile .
           echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }}"
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }}
           docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_latest
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_amd64_latest
           
-          docker build --build-arg EDITION=extended --build-arg D_VERSION_1="21.0.5.0.5%2B9" --build-arg D_VERSION_2=21.0.5.0.5.9 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }} -f 21/Dockerfile .
+          docker build --build-arg NODE_VERSION=20.11.0 --build-arg GRADLE_VERSION=8.12.1 --build-arg EDITION=extended --build-arg D_VERSION_1="21.0.5.0.5%2B9" --build-arg D_VERSION_2=21.0.5.0.5.9 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }} -f 21/Dockerfile .
           echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }}"
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }}
           docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_amd64_latest
@@ -112,13 +112,13 @@ jobs:
           export DOCKER_DEFAULT_PLATFORM=linux/arm64
           # 打包镜像并上传
           echo "docker build dragonwell arm64 base"
-          docker build --build-arg EDITION=extended --build-arg D_VERSION=8.20.21 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }} -f 8/Dockerfile .
+          docker build --build-arg NODE_VERSION=20.11.0 --build-arg GRADLE_VERSION=6.9.4 --build-arg EDITION=extended --build-arg D_VERSION=8.20.21 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }} -f 8/Dockerfile .
           echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }}"
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }}
           docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_latest
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:8_arm64_latest
-          
-          docker build --build-arg EDITION=extended --build-arg D_VERSION_1="21.0.5.0.5%2B9" --build-arg D_VERSION_2=21.0.5.0.5.9 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }} -f 21/Dockerfile .
+
+          docker build --build-arg NODE_VERSION=20.11.0 --build-arg GRADLE_VERSION=8.12.1 --build-arg EDITION=extended --build-arg D_VERSION_1="21.0.5.0.5%2B9" --build-arg D_VERSION_2=21.0.5.0.5.9 -t $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }} -f 21/Dockerfile .
           echo "docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }}"
           docker push $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }}
           docker tag $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_${{ env.TAG_VERSION }} $ALIYUN_REGISTRY/$ALIYUN_NAME_SPACE/dragonwell:21_arm64_latest

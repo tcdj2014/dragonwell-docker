@@ -19,6 +19,8 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash
 ARG EDITION=extended
 
 ARG D_VERSION=xxx
+ARG GRADLE_VERSION=6.9.4
+ARG NODE_VERSION=20.11.0
 
 COPY 8/install.sh install.sh
 RUN bash install.sh
@@ -29,6 +31,27 @@ ENV JAVA_HOME=/opt/java/openjdk \
 RUN rm -rf /var/cache/*/*
 # RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 # RUN echo "Asia/Shanghai" > /etc/timezone
+
+# 安装Gradle
+RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
+    unzip gradle-${GRADLE_VERSION}-bin.zip -d /opt/ && \
+    ln -s /opt/gradle-${GRADLE_VERSION} /opt/gradle && \
+    echo 'export PATH=$PATH:/opt/gradle/bin' >> /etc/profile && \
+    rm gradle-${GRADLE_VERSION}-bin.zip
+
+# 安装Node.js
+RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz | tar -xJf - -C /usr/local --strip-components=1 && \
+    node -v && npm -v
+
+# 使用npm安装coffeescript和stylus
+RUN npm install -g coffeescript@1.12.7 stylus
+
+# 验证安装
+RUN gradle -v && \
+    node -v && \
+    npm -v && \
+    coffee -v && \
+    stylus -v
 
 RUN echo Verifying install ... \
     && echo javac -version && javac -version \

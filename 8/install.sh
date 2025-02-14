@@ -47,6 +47,8 @@ case "${ARCH}" in
      exit 1
 esac
 
+npm install -g coffeescript@1.12.7 stylus
+
 curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}
 echo "${ESUM:0:64} */tmp/openjdk.tar.gz" | sha256sum -c -
 mkdir -p /opt/java/openjdk

@@ -28,13 +28,6 @@ ARG NODE_VERSION=20
 COPY 21/install.sh install.sh
 RUN bash install.sh
 
-ENV JAVA_HOME=/opt/java/openjdk \
-    PATH="/opt/java/openjdk/bin:$PATH"
-
-RUN rm -rf /var/cache/*/*
-# RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-# RUN echo "Asia/Shanghai" > /etc/timezone
-
 # 安装Gradle
 RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
     unzip gradle-${GRADLE_VERSION}-bin.zip -d /opt/ && \
@@ -42,14 +35,13 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
     echo 'export PATH=$PATH:/opt/gradle/bin' >> /etc/profile && \
     rm gradle-${GRADLE_VERSION}-bin.zip
 
-# 安装Node.js
-# Download and install fnm:
-RUN curl -o- https://fnm.vercel.app/install | bash
+ENV JAVA_HOME=/opt/java/openjdk \
+    PATH="/opt/java/openjdk/bin:$PATH" \
+    PATH="/opt/gradle/bin:$PATH"
 
-RUN source /root/.bashrc
-
-# Download and install Node.js:
-RUN fnm install ${NODE_VERSION}
+RUN rm -rf /var/cache/*/*
+# RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# RUN echo "Asia/Shanghai" > /etc/timezone
 
 # 使用npm安装coffeescript和stylus
 RUN npm install -g coffeescript@1.12.7 stylus
@@ -59,7 +51,7 @@ RUN gradle -v && \
     node -v && \
     npm -v && \
     coffee -v && \
-    stylus -v
+    stylus -V
 
 RUN echo Verifying install ... \
     && echo javac -version && javac -version \

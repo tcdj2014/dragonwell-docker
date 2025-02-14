@@ -24,6 +24,16 @@ ARG D_VERSION=xxx
 ARG GRADLE_VERSION=6.9.4
 ARG NODE_VERSION=20
 
+# 安装Node.js
+# Download and install fnm:
+RUN curl -o- https://fnm.vercel.app/install | bash
+
+# Download and install Node.js:
+RUN /root/.local/share/fnm install ${NODE_VERSION}
+
+# 使用npm安装coffeescript和stylus
+RUN npm install -g coffeescript@1.12.7 stylus
+
 COPY 8/install.sh install.sh
 RUN bash install.sh
 
@@ -40,18 +50,6 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
     ln -s /opt/gradle-${GRADLE_VERSION} /opt/gradle && \
     echo 'export PATH=$PATH:/opt/gradle/bin' >> /etc/profile && \
     rm gradle-${GRADLE_VERSION}-bin.zip
-
-# 安装Node.js
-# Download and install fnm:
-RUN curl -o- https://fnm.vercel.app/install | bash
-
-RUN cat /root/.bashrc
-
-# Download and install Node.js:
-RUN fnm install ${NODE_VERSION}
-
-# 使用npm安装coffeescript和stylus
-RUN npm install -g coffeescript@1.12.7 stylus
 
 # 验证安装
 RUN gradle -v && \

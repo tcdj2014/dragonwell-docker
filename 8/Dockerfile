@@ -20,7 +20,7 @@ ARG EDITION=extended
 
 ARG D_VERSION=xxx
 ARG GRADLE_VERSION=6.9.4
-ARG NODE_VERSION=20.11.0
+ARG NODE_VERSION=20
 
 COPY 8/install.sh install.sh
 RUN bash install.sh
@@ -40,8 +40,11 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
     rm gradle-${GRADLE_VERSION}-bin.zip
 
 # 安装Node.js
-RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz | tar -xJf - -C /usr/local --strip-components=1 && \
-    node -v && npm -v
+# Download and install fnm:
+RUN curl -o- https://fnm.vercel.app/install | bash
+
+# Download and install Node.js:
+RUN fnm install ${NODE_VERSION}
 
 # 使用npm安装coffeescript和stylus
 RUN npm install -g coffeescript@1.12.7 stylus

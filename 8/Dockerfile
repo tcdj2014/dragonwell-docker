@@ -44,10 +44,10 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 RUN curl -o- https://fnm.vercel.app/install | bash
 
 # Download and install Node.js:
-RUN fnm install ${NODE_VERSION}
+RUN bash fnm install ${NODE_VERSION}
 
 # 使用npm安装coffeescript和stylus
-RUN npm install -g coffeescript@1.12.7 stylus
+RUN bash npm install -g coffeescript@1.12.7 stylus
 
 # 验证安装
 RUN gradle -v && \

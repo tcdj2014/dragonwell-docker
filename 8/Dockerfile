@@ -47,7 +47,7 @@ RUN gradle -v && \
     node -v && \
     npm -v && \
     coffee -v && \
-    stylus -v
+    stylus -V
 
 RUN echo Verifying install ... \
     && echo javac -version && javac -version \

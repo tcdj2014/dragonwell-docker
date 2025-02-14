@@ -18,7 +18,7 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash
 COPY jdk_base/source.sh source.sh
 RUN bash source.sh
 
-RUN yum install -y binutils tzdata openssl curl ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
+RUN yum install -y binutils tzdata openssl curl wget ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
     && yum clean all
 
 ARG EDITION=extended

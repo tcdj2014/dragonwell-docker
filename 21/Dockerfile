@@ -18,6 +18,9 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash
 
 SHELL ["/bin/bash", "-c"]
 
+RUN yum install -y binutils tzdata openssl curl wget ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet \
+    && yum clean all
+
 ARG EDITION=extended
 
 ARG D_VERSION_1=xxx

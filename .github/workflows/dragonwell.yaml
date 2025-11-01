@@ -7,10 +7,8 @@ on:
       - v*
     paths:
       - '8/Dockerfile'
-      - '8/source.sh'
       - '8/install.sh'
       - '21/Dockerfile'
-      - '21/source.sh'
       - '21/install.sh'
 
 

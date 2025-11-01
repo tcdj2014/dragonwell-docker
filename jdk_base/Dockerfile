@@ -1,16 +1,3 @@
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
 FROM alibaba-cloud-linux-3-registry.cn-hangzhou.cr.aliyuncs.com/alinux3/alinux3:latest
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash'
@@ -25,9 +12,21 @@ ARG EDITION=extended
 
 RUN rm -rf /var/cache/*/*
 
-COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
+#COPY --from=hengyunabc/arthas:latest /opt/arthas /opt/arthas
+RUN curl -L https://arthas.aliyun.com/install.sh | sh
+
+COPY jdk_base/gosu-amd641.17 /usr/local/bin/gosu
+RUN chmod +x /usr/local/bin/gosu
+
+COPY jdk_base/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# 创建默认用户和组
+RUN groupadd -r ttx && useradd -r -g ttx ttx
+RUN mkdir -p /home/ttx
+RUN chown -R ttx:ttx /home/ttx
 
 RUN date \
     && echo Complete.
 
-ENTRYPOINT ["tini","--"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]

@@ -5,10 +5,26 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash
 COPY jdk_base/source.sh source.sh
 RUN bash source.sh
 
-RUN yum install -y binutils tzdata openssl curl wget ca-certificates fontconfig gzip tar tini bash htop procps iputils telnet unzip xz \
+RUN yum install -y \
+    shadow-utils \
+    binutils \
+    tzdata \
+    openssl \
+    curl \
+    wget \
+    ca-certificates \
+    fontconfig \
+    gzip \
+    tar \
+    tini \
+    bash \
+    htop \
+    procps \
+    iputils \
+    telnet \
+    unzip \
+    xz \
     && yum clean all
-
-ARG EDITION=extended
 
 RUN rm -rf /var/cache/*/*
 

@@ -1,6 +1,30 @@
 #!/bin/bash
 #https://dragonwell.oss-cn-shanghai.aliyuncs.com/21.0.5.0.5%2B9/Alibaba_Dragonwell_Standard_21.0.5.0.5.9_aarch64_linux-sbom.json
 ## https://github.com/dragonwell-project/dragonwell21/wiki/下载镜像(Mirrors-for-download)
+
+# 将D_VERSION字符串中的最后一个点(.)替换为%2B
+
+input_string="$D_VERSION"
+
+if [ -z "$input_string" ]; then
+  echo "用法: $0 <string>"
+  echo "例如: $0 \"21.0.5.0.5.9\""
+  exit 1
+fi
+
+# 方法: 使用bash的参数扩展功能
+# ${string%pattern} 移除从右边开始的最短匹配
+# ${string##pattern} 保留从左边开始的最长匹配
+# 我们先获取最后一个点之前的部分，然后加上%2B和最后一个点之后的部分
+
+prefix="${input_string%.*}"  # 最后一个点之前的部分
+suffix="${input_string##*.}" # 最后一个点之后的部分
+
+result="${prefix}%2B${suffix}"
+
+D_VERSION_1=$result
+D_VERSION_2=$input_string
+
 ARCH="$(uname -m)"
 case "${ARCH}" in
   x86_64)

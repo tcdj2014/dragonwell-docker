@@ -4,7 +4,7 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8' SHELL='/bin/bash
 
 SHELL ["/bin/bash", "-c"]
 
-ENV JAVA_VERSION jdk8u402-b01
+ENV JAVA_VERSION=jdk8u382-b01
 
 ARG EDITION=extended
 
